@@ -61,22 +61,69 @@ public class EstadoServiceImpl implements EstadoService {
     }
 
     @Override
-    public List<EstadoResponseDTO> findAll() {
-        return estadoRepository
-        .listAll()
-        .stream()
-        .map(e -> EstadoResponseDTO.valueOf(e)).toList();
+    public List<EstadoResponseDTO> findAll(int page, int pageSize) {
+        List<Estado> listEstado = estadoRepository
+                                    .findAll()
+                                    .page(page, pageSize)
+                                    .list();
+        return listEstado
+                    .stream()
+                    .map(e -> EstadoResponseDTO.valueOf(e))
+                    .toList();
+    }
+
+    @Override
+    public List<EstadoResponseDTO> findByNome(int page, int pageSize, String nome) {
+        List<Estado> listEstado = estadoRepository
+                                    .findByNome(nome)
+                                    .page(page, pageSize)
+                                    .list();
+
+        return listEstado
+                    .stream()
+                    .map(e -> EstadoResponseDTO.valueOf(e))
+                    .toList();
     }
 
     @Override
     public List<EstadoResponseDTO> findByNome(String nome) {
-        return estadoRepository.findByNome(nome).stream()
-        .map(e -> EstadoResponseDTO.valueOf(e)).toList();
+        List<Estado> listEstado = estadoRepository
+                                    .findByNome(nome)
+                                    .list();
+
+        return listEstado
+                    .stream()
+                    .map(e -> EstadoResponseDTO.valueOf(e))
+                    .toList();
+    }
+
+    @Override
+    public List<EstadoResponseDTO> findBySigla(int page, int pageSize, String sigla) {
+        List<Estado> listEstado = estadoRepository
+                                    .findBySigla(sigla)
+                                    .page(page, pageSize)
+                                    .list();
+
+        return listEstado
+                    .stream()
+                    .map(e -> EstadoResponseDTO.valueOf(e))
+                    .toList();
     }
 
     @Override
     public List<EstadoResponseDTO> findBySigla(String sigla) {
-        return estadoRepository.findBySigla(sigla).stream()
-        .map(e -> EstadoResponseDTO.valueOf(e)).toList();
+        List<Estado> listEstado = estadoRepository
+                                    .findBySigla(sigla)
+                                    .list();
+
+        return listEstado
+                    .stream()
+                    .map(e -> EstadoResponseDTO.valueOf(e))
+                    .toList();
+    }
+
+    @Override
+    public long count(){
+        return estadoRepository.count();
     }
 }
