@@ -5,12 +5,14 @@ import br.unitins.tp2.faixas.service.CidadeService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
@@ -30,15 +32,26 @@ public class CidadeResource {
     }
 
     @GET
-    public Response findAll() {
-        return Response.ok(cidadeService.findAll()).build();
+    public Response findAll(
+        @DefaultValue("0") @QueryParam("page") int page,
+            @DefaultValue("100") @QueryParam("pageSize") int pageSize) {
+        return Response.ok(cidadeService.findAll(page, pageSize)).build();
     }
 
     @GET
     @Path("/search/nome/{nome}")
-    public Response findByNome(@PathParam("nome") String nome) {
-        return Response.ok(cidadeService.findByNome(nome)).build();
+    public Response findByNome(@PathParam("nome") String nome,
+    @DefaultValue("0") @QueryParam("page") int page,
+            @DefaultValue("100") @QueryParam("pageSize") int pageSize) {
+        return Response.ok(cidadeService.findByNome(page, pageSize, nome)).build();
     }
+
+    @GET
+    @Path("/count")
+    public Response count() {
+        return Response.ok(cidadeService.count()).build();
+    }
+
     @POST
     public Response create(CidadeDTO dto) {
         return Response.status(Status.CREATED).entity(cidadeService.create(dto)).build();

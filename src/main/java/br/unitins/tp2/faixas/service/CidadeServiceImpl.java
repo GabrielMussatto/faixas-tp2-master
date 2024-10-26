@@ -4,7 +4,9 @@ import java.util.List;
 
 import br.unitins.tp2.faixas.dto.CidadeDTO;
 import br.unitins.tp2.faixas.dto.CidadeResponseDTO;
+import br.unitins.tp2.faixas.dto.EstadoResponseDTO;
 import br.unitins.tp2.faixas.model.Cidade;
+import br.unitins.tp2.faixas.model.Estado;
 import br.unitins.tp2.faixas.repository.CidadeRepository;
 import br.unitins.tp2.faixas.repository.EstadoRepository;
 import br.unitins.tp2.faixas.validation.ValidationException;
@@ -64,16 +66,42 @@ public class CidadeServiceImpl implements CidadeService {
     }
 
     @Override
-    public List<CidadeResponseDTO> findAll() {
-        return cidadeRepository
-        .listAll()
-        .stream()
-        .map(e -> CidadeResponseDTO.valueOf(e)).toList();
+    public List<CidadeResponseDTO> findAll(int page, int pageSize) {
+        List<Cidade> listCidade = cidadeRepository
+                                    .findAll()
+                                    .page(page, pageSize)
+                                    .list();
+        return listCidade
+                    .stream()
+                    .map(e -> CidadeResponseDTO.valueOf(e))
+                    .toList();
+    }
+
+    @Override
+    public List<CidadeResponseDTO> findByNome(int page, int pageSize, String nome) {
+        List<Cidade> listCidade = cidadeRepository
+                                    .findByNome(nome)
+                                    .page(page, pageSize)
+                                    .list();
+        return listCidade
+                    .stream()
+                    .map(e -> CidadeResponseDTO.valueOf(e))
+                    .toList();
     }
 
     @Override
     public List<CidadeResponseDTO> findByNome(String nome) {
-        return cidadeRepository.findByNome(nome).stream()
-        .map(e -> CidadeResponseDTO.valueOf(e)).toList();
+        List<Cidade> listCidade = cidadeRepository
+                                    .findByNome(nome)
+                                    .list();
+        return listCidade
+                    .stream()
+                    .map(e -> CidadeResponseDTO.valueOf(e))
+                    .toList();
+    }
+
+    @Override
+    public long count(){
+        return cidadeRepository.count();
     }
 }

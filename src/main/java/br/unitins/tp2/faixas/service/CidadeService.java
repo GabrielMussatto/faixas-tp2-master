@@ -12,7 +12,9 @@ public interface CidadeService {
     public void update(Long id, CidadeDTO dto);
     public void delete(Long id);
     public CidadeResponseDTO findById(Long id);
-    public List<CidadeResponseDTO> findAll();
+    public List<CidadeResponseDTO> findAll(int page, int pageSize);
     public List<CidadeResponseDTO> findByNome(String nome);
+    public List<CidadeResponseDTO> findByNome(int page, int pageSize, String nome);
+    public long count();
     
 }
