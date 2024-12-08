@@ -34,6 +34,7 @@ public class EstadoResource {
     }
 
     @GET
+    @RolesAllowed("Adm")
     public Response findAll(
             @DefaultValue("0") @QueryParam("page") int page,
             @DefaultValue("100") @QueryParam("pageSize") int pageSize) {
